@@ -3,6 +3,9 @@ from .compute import *
 from matplotlib import pyplot as plt
 from matplotlib import cm
 import sys
+from .polynomials import mandel
+from .io import *
+from time import time
 
 
 def mandelbrot():
@@ -48,29 +51,40 @@ def mandelbrot():
         help="Maximum value for which the iteration is stopped for a given data point",
         default=2
     )
+    p.add_argument(
+        "-n", "--nworkers",
+        help="Number of parallel processes to use for rendering, default 2",
+        type=int,
+        default=2
+    )
     args = p.parse_args(sys.argv[1:])
 
-    renderres = (args.width, int((args.top - args.bottom) / (args.right - args.left) * args.width))
+    start = time()
     C = get_grid(
         (args.left, args.right),
         (args.bottom, args.top),
-        renderres
+        resw=args.width
     )
 
-    Z, niter = poly_iter(
-        lambda z, c: z**2 + c,
+    G, Z, niter = poly_iter_parallel(
+        mandel,
         C,
         max_iter=args.max_iterations,
-        max_value=args.max_value
+        max_value=args.max_value,
+        nproc=args.nworkers,
+        nchunks=2*args.nworkers
     )
 
     dpi = 300
-    figs = plt.figure(num=2, figsize=(renderres[0]/dpi, renderres[1]/dpi), dpi=dpi)
+    figs = plt.figure(num=2, figsize=(C.shape[1]/dpi, C.shape[0]/dpi), dpi=dpi)
     figs.clear()
     ax2 = figs.add_axes([0, 0, 1, 1])
-    ax2.imshow(gradient_func(niter, np.abs(Z), 2), cmap=cm.hot)
+    ax2.imshow(G, cmap=cm.hot)
     ax2.set_position((0, 0, 1, 1))
     plt.axis("off")
-    plt.savefig(get_render_filename(Path.cwd()))
+    filename = get_render_filename(Path.cwd())
+    plt.savefig(filename)
+    print("Computing time: {:.2f}s".format(time() - start))
+    print("Picture saved to:", str(filename))
 
 
