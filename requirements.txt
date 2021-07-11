@@ -2,3 +2,4 @@ numpy
 scipy
 jupyter
 matplotlib
+bokeh
