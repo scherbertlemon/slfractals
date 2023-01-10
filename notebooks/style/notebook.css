@@ -1,0 +1,69 @@
+.alleft {
+    float:left;
+    width:50%;
+    padding-right:1em;
+}
+
+.alright {
+    float:right;
+    width:50%;
+}
+
+div.title {
+    background-color: #003275;
+    background-size: cover;
+    color:white;
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-top: 2em;
+    padding-bottom: 4em;
+}
+
+div.sect {
+    color: white;
+    background-color: #007CD5;
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-bottom: 1em;
+    padding-top:0.5em;
+}
+
+.sect h2 {
+    color: white;
+}
+
+.sect a {
+    color:white;
+}
+
+h1.title {
+    color:white;
+}
+
+h1 {
+    color: #003275;
+}
+
+h2 {
+    color:  #007CD5;
+}
+
+h3 {
+    color: #3FAFFF;
+}
+
+.column {
+    float: left;
+    width: 50%;
+    padding-right:0.25em;
+}
+
+.row {
+    margin:1em;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}

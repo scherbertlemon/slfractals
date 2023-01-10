@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
 from .compute import *
-from matplotlib import pyplot as plt
-from matplotlib import cm
+# from matplotlib import pyplot as plt
+# from matplotlib import cm
 import sys
 from .polynomials import mandel
 from .io import *

@@ -12,7 +12,7 @@ def get_requirements():
 
 setup(
     name="slfractals",
-    version="0.1",
+    version="0.2",
     description="exploring fractals defined on the complex number plane",
     author="Andreas Roth",
     url="https://github.com/scherbertlemon/slfractals",
@@ -23,7 +23,7 @@ setup(
     install_requires=get_requirements(),
     zip_safe=True,
     entry_points={
-        "console_scripts":[
+        "console_scripts": [
             "mandelbrotset = slfractals.cli:mandelbrot"
         ]
     }
