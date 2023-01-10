@@ -66,25 +66,16 @@ def mandelbrot():
         resw=args.width
     )
 
-    G, Z, niter = poly_iter_parallel(
+    G = parallel_compute(
         mandel,
         C,
         max_iter=args.max_iterations,
         max_value=args.max_value,
         nproc=args.nworkers,
-        nchunks=2*args.nworkers
+        colorexp=2
     )
 
-    dpi = 300
-    figs = plt.figure(num=2, figsize=(C.shape[1]/dpi, C.shape[0]/dpi), dpi=dpi)
-    figs.clear()
-    ax2 = figs.add_axes([0, 0, 1, 1])
-    ax2.imshow(G, cmap=cm.hot)
-    ax2.set_position((0, 0, 1, 1))
-    plt.axis("off")
-    filename = get_render_filename(Path.cwd())
-    plt.savefig(filename)
     print("Computing time: {:.2f}s".format(time() - start))
-    print("Picture saved to:", str(filename))
+    print("Picture saved to:", str(render_picture(G, Path.cwd())))
 
 
