@@ -1,0 +1,7 @@
+*.pyc
+env/*
+*-checkpoint.ipynb
+*.png
+*.log
+*.egg-info
+.vscode
