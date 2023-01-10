@@ -16,14 +16,16 @@ def mandel(z, c):
     c: Complex
         scalar, vector or matrix, the starting value(s)
     """
-    return zpn(z, c, 2)
+    return zpn(z, c)
 
+def zp3(z, c):
+    return zpn(z, c, n=3)
 
 def zp5(z, c):
-    return zpn(z, c, 5)
+    return zpn(z, c, n=5)
 
 
-def zpn(z, c, n):
+def zpn(z, c, n=2):
     """
     nth order polynomial generating a beautiful set
 
@@ -35,3 +37,8 @@ def zpn(z, c, n):
         scalar, vector or matrix, the starting value(s)
     """
     return z**n + c
+
+
+def poly1(z, c):
+
+    return z**3 - 3* (c+0.5j)**2*z + c

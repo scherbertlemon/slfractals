@@ -1,26 +1,29 @@
 from bokeh.io import curdoc
-from bokeh.models import ColumnDataSource, Button, TextInput
+from bokeh.models import ColumnDataSource, Button, TextInput, Select
 from bokeh.plotting import figure
-from bokeh.palettes import inferno
+from bokeh.palettes import inferno, RdYlGn
 from bokeh.layouts import column, row
 import slfractals as slf
 from time import time, sleep
 import numpy as np
+from inspect import getmembers, isfunction
+
+NPROC = 4
 
 xlim = (-1.8, 1.)
 ylim = (-0.9, 0.9)
 
-resw = 800
+resw = 1200
 factor = 1
 C = slf.get_grid(xlim, ylim, resw=resw)
 
-grad = slf.serial_compute(
+grad = slf.parallel_compute(
     slf.mandel,
     C,
     max_iter=300,
     max_value=5,
     colorexp=2,
-    nproc=2
+    nproc=NPROC
 )
 
 p = figure(
@@ -31,6 +34,9 @@ p = figure(
     y_range=ylim
 )
 
+polys = dict(getmembers(slf.polynomials, isfunction))
+polyselect = Select(title="Polynomial", value="mandel", options=list(polys.keys()))
+
 niter_field = TextInput(value="300", title="Niterations:")
 b = Button(label="calc")
 cds = ColumnDataSource(data=dict(
@@ -38,6 +44,8 @@ cds = ColumnDataSource(data=dict(
     x=[xlim[0]], y=[ylim[0]],
     dw=[xlim[1]-xlim[0]], dh=[ylim[1]-ylim[0]]
 ))
+palette = list(RdYlGn[11]*11)
+palette.reverse()
 img = p.image(
     image="image",
     x="x",
@@ -45,7 +53,7 @@ img = p.image(
     dw="dw",
     dh="dh",
     source=cds,
-    palette=inferno(256)
+    palette=palette
 )
 
 refresh = {"time": time()}
@@ -82,13 +90,14 @@ def update():
         print("invalid value for number of iterations, back to standard 300")
         niter = 300
 
+    
     grad = slf.parallel_compute(
-        slf.mandel,
+        polys[polyselect.value],
         C,
         max_iter=niter,
         max_value=5,
         colorexp=2,
-        nproc=4
+        nproc=NPROC
     )
     end = time()
     print(f"refreshtime = {end-start}s")
@@ -128,4 +137,4 @@ def update_always(event):
 b.on_click(update_always)
 p.y_range.on_change("end", update_timed)
 
-curdoc().add_root(column(b, niter_field, p))
+curdoc().add_root(column(b, polyselect, niter_field, p))
