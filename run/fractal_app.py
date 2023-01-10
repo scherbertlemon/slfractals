@@ -40,8 +40,8 @@ polyselect = Select(title="Choose polynomial", value="mandel", options=list(poly
 
 niter_field = TextInput(value="300", title="Maximum iterations", width=int(0.5*resw))
 b = Button(label="calc")
-
-rang = Div(text=f"xlim = ({C.real.min()}, {C.real.max()}), ylim = ({C.imag.min()}, {C.imag.max()})")
+range_format = '{{"xlim": ({}, {}), "ylim": ({}, {})}}'
+range_output = Div(text=range_format.format(C.real.min(), C.real.max(), C.imag.min(), C.imag.max()))
 
 cds = ColumnDataSource(data=dict(
     image=[np.flip(grad, axis=0)],
@@ -79,7 +79,7 @@ def update():
         resw=resw
     )
 
-    rang.text = f"xlim = ({C.real.min()}, {C.real.max()}), ylim = ({C.imag.min()}, {C.imag.max()})"
+    range_output.text = range_format.format(C.real.min(), C.real.max(), C.imag.min(), C.imag.max())
     print(f"mesh: {C.shape}")
     try:
         niter = int(niter_field.value)
@@ -141,4 +141,4 @@ def update_always(event):
 b.on_click(update_always)
 p.y_range.on_change("end", update_timed)
 
-curdoc().add_root(column(row(polyselect, niter_field), b, rang, p))
+curdoc().add_root(column(row(polyselect, niter_field), b, range_output, p))
