@@ -1,6 +1,23 @@
 import numpy as np
 from functools import reduce
 
+def blueorangeblue(n=10):
+    origin_colors = [
+        "#000000",
+        "10006D",
+        "6D0037",
+        "DE3C00",
+        "DE7100",
+        "FEB828",
+        "FCF7EC",
+        "93C2FC",
+        "0073FF",
+        "001D41"
+    ]
+    origin_colors.reverse()
+    cg = ColorGradient(origin_colors)
+    return cg(n)
+
 
 class BernsteinPoly:
 
@@ -8,7 +25,7 @@ class BernsteinPoly:
     def get_poly(cls, n, k):
         if k < 0 or k > n:
             raise ValueError(f"tried to get the {k}th polynomial of order {n}")
-        return lambda t: np.math.comb(n, k) * t**(n - k) * (1 - t)**k
+        return lambda t: np.math.comb(n, k) * t**k * (1 - t)**(n - k)
 
     @classmethod
     def all_polynomials(cls, n):

@@ -3,6 +3,30 @@ import re
 from matplotlib import pyplot as plt
 from matplotlib import cm
 
+from bokeh.plotting import figure, ColumnDataSource
+from .colors import blueorangeblue
+
+
+def plot_one(img, xlim, ylim, palette=None):
+    if palette is None:
+        palette = blueorangeblue(100)
+    p = figure(
+        plot_width=img.shape[1],
+        plot_height=img.shape[0],
+        x_range=xlim,
+        y_range=ylim
+    )
+    cds = ColumnDataSource(
+        data={
+            "image": [img],
+            "x": [xlim[0]],
+            "y": [ylim[0]],
+            "dw": [xlim[1]-xlim[0]],
+            "dh": [ylim[1]-ylim[0]]
+        }
+    )
+    p.image(image="image", source=cds, x="x", y="y", dw="dw", dh="dh", palette=palette)
+    return p
 
 def get_render_filename(loc, nameroot="render"):
     loc = Path(loc)
