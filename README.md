@@ -6,6 +6,17 @@ This python package lets you explore fractals defined on the complex number plan
 
 **!!! This is an early version: documentation, functionality and interfaces are not perfect and will change in the future. !!!**
 
+## Running on Docker
+
+That's the easiest way. Clone the repository, then from this folder, build image with:
+
+    docker build -t slfractals:latest .
+
+To run the bokeh app, run:
+
+    docker run --rm -it -p 5006:5006 slfractals:latest
+
+
 ## Installation and setup
 
 **It is recommended to use ``conda`` on Windows to install dependencies for this package.**
