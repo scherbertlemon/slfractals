@@ -7,8 +7,9 @@ import slfractals as slf
 from time import time, sleep
 import numpy as np
 from inspect import getmembers, isfunction
+from slfractals.colors import ColorGradient
 
-NPROC = 4
+NPROC = 6
 
 xlim = (-1.8, 1.)
 ylim = (-0.9, 0.9)
@@ -44,8 +45,8 @@ cds = ColumnDataSource(data=dict(
     x=[xlim[0]], y=[ylim[0]],
     dw=[xlim[1]-xlim[0]], dh=[ylim[1]-ylim[0]]
 ))
-palette = list(RdYlGn[11]*11)
-palette.reverse()
+palette = ColorGradient(["#000000", "FF7122", "FFBB21", "FFFFFF", "D0EBFE", "3FAFFF", "007CD5"])
+
 img = p.image(
     image="image",
     x="x",
@@ -53,7 +54,7 @@ img = p.image(
     dw="dw",
     dh="dh",
     source=cds,
-    palette=palette
+    palette=palette(100)
 )
 
 refresh = {"time": time()}
