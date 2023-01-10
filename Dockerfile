@@ -16,4 +16,4 @@ RUN jupyter contrib nbextension install --user \
 ENV ALLOW_PORT=5006
 ENV ALLOW_HOST=localhost
 
-CMD ["bash", "-c", "bokeh serve --port ${ALLOW_PORT} --allow-websocket-origin ${ALLOW_HOST}:${ALLOW_PORT} run/fractall.py"]
+CMD ["bash", "-c", "bokeh serve --port ${ALLOW_PORT} --allow-websocket-origin ${ALLOW_HOST}:${ALLOW_PORT} run/fractal_app.py"]

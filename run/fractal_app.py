@@ -9,12 +9,12 @@ import numpy as np
 from inspect import getmembers, isfunction
 from slfractals.colors import blueorangeblue
 
-NPROC = 4
+NPROC = 2
 
 xlim = (-1.8, 1.)
 ylim = (-0.9, 0.9)
 
-resw = 750
+resw = 900
 factor = 1
 C = slf.get_grid(xlim, ylim, resw=resw)
 
@@ -39,7 +39,7 @@ polys = dict(getmembers(slf.polynomials, isfunction))
 polyselect = Select(title="Choose polynomial", value="mandel", options=list(polys.keys()), width=int(0.5*resw))
 
 niter_field = TextInput(value="300", title="Maximum iterations", width=int(0.5*resw))
-b = Button(label="calc")
+b = Button(label="Calculate")
 range_format = '{{"xlim": ({}, {}), "ylim": ({}, {})}}'
 range_output = Div(text=range_format.format(C.real.min(), C.real.max(), C.imag.min(), C.imag.max()))
 
