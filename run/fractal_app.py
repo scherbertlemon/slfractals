@@ -1,5 +1,5 @@
 from bokeh.io import curdoc
-from bokeh.models import ColumnDataSource, Button, TextInput, Select
+from bokeh.models import ColumnDataSource, Button, TextInput, Select, Div
 from bokeh.plotting import figure
 from bokeh.palettes import inferno, RdYlGn
 from bokeh.layouts import column, row
@@ -36,10 +36,13 @@ p = figure(
 )
 
 polys = dict(getmembers(slf.polynomials, isfunction))
-polyselect = Select(title="Polynomial", value="mandel", options=list(polys.keys()))
+polyselect = Select(title="Choose polynomial", value="mandel", options=list(polys.keys()), width=int(0.5*resw))
 
-niter_field = TextInput(value="300", title="Niterations:")
+niter_field = TextInput(value="300", title="Maximum iterations", width=int(0.5*resw))
 b = Button(label="calc")
+
+rang = Div(text=f"xlim = ({C.real.min()}, {C.real.max()}), ylim = ({C.imag.min()}, {C.imag.max()})")
+
 cds = ColumnDataSource(data=dict(
     image=[np.flip(grad, axis=0)],
     x=[xlim[0]], y=[ylim[0]],
@@ -76,6 +79,7 @@ def update():
         resw=resw
     )
 
+    rang.text = f"xlim = ({C.real.min()}, {C.real.max()}), ylim = ({C.imag.min()}, {C.imag.max()})"
     print(f"mesh: {C.shape}")
     try:
         niter = int(niter_field.value)
@@ -137,4 +141,4 @@ def update_always(event):
 b.on_click(update_always)
 p.y_range.on_change("end", update_timed)
 
-curdoc().add_root(column(b, polyselect, niter_field, p))
+curdoc().add_root(column(row(polyselect, niter_field), b, rang, p))

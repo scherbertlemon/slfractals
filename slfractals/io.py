@@ -2,14 +2,17 @@ from pathlib import Path
 import re
 from matplotlib import pyplot as plt
 from matplotlib import cm
-
+import numpy as np
 from bokeh.plotting import figure, ColumnDataSource
 from .colors import blueorangeblue
 
 
-def plot_one(img, xlim, ylim, palette=None):
+def plot_one(img, grid, palette=None):
     if palette is None:
         palette = blueorangeblue(100)
+    
+    xlim = (grid.real.min(), grid.real.max())
+    ylim = (grid.imag.min(), grid.imag.max())
     p = figure(
         plot_width=img.shape[1],
         plot_height=img.shape[0],
@@ -18,7 +21,7 @@ def plot_one(img, xlim, ylim, palette=None):
     )
     cds = ColumnDataSource(
         data={
-            "image": [img],
+            "image": [np.flip(img, axis=0)],
             "x": [xlim[0]],
             "y": [ylim[0]],
             "dw": [xlim[1]-xlim[0]],

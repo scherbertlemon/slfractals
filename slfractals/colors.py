@@ -3,18 +3,21 @@ from functools import reduce
 
 def blueorangeblue(n=10):
     origin_colors = [
-        "#000000",
+        "10006D",
         "10006D",
         "6D0037",
         "DE3C00",
         "DE7100",
         "FEB828",
         "FCF7EC",
+        "FCF7EC",
         "93C2FC",
         "0073FF",
         "001D41"
     ]
+
     origin_colors.reverse()
+    origin_colors.append("#000000")
     cg = ColorGradient(origin_colors)
     return cg(n)
 

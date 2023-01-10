@@ -1,9 +1,15 @@
 import numpy as np
 import re
 from pathlib import Path
-import numpy as np
 from multiprocessing import Pool
 import functools
+
+
+def recursive_apply(poly, z=0, n=0):
+    if n == 0:
+        return (z,)
+    else:
+        return (z, *recursive_apply(poly, z=poly(z), n=n-1))
 
 
 def split(arr, nportions=4):

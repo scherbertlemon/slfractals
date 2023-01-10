@@ -21,6 +21,9 @@ def mandel(z, c):
 def zp3(z, c):
     return zpn(z, c, n=3)
 
+def zp4(z, c):
+    return zpn(z, c, n=4)
+
 def zp5(z, c):
     return zpn(z, c, n=5)
 

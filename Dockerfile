@@ -8,7 +8,10 @@ WORKDIR /app
 
 COPY . /app/
 
-RUN poetry install --no-ansi --no-interaction
+RUN poetry install --no-interaction
+RUN jupyter contrib nbextension install --user \
+    && jupyter nbextension enable splitcell/splitcell \
+    && jupyter nbextension enable hide_input/main
 
 ENV ALLOW_PORT=5006
 ENV ALLOW_HOST=localhost
