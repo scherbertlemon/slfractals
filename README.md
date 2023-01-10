@@ -30,6 +30,10 @@ This package cannot yet be obtained from any python repo source, so the developm
 ## Usage
 
 Functionality is mostly encapsulated in the ``slfractals`` module.
+* **NEW**: There is a preliminary bokeh app, that can be like
+
+        bokeh serve --show notebooks/fractall.py
+
 * For exploring there is a Jupyter notebook, where you can zoom into a fractal set and render high-resolution pictures on demand: [explore.ipynb](notebooks/explore.ipynb).
 * To render pictures directly in a specific region of the mandelbrot set, use the command line script from a terminal with activated python environment:
 
