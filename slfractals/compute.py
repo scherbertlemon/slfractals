@@ -17,6 +17,7 @@ def split(arr, nportions=4):
 def join(arr_list, nx, ny):
     return np.concatenate(arr_list).reshape((nx, ny))
 
+
 def poly_iter_serial(poly, c, max_iter=100, max_value=2, nproc=2, nchunks=4):
     G, Z, niter = poly_iter(poly, c.flatten(), max_iter=max_iter, max_value=max_value)
     return (
@@ -25,10 +26,7 @@ def poly_iter_serial(poly, c, max_iter=100, max_value=2, nproc=2, nchunks=4):
         niter.reshape(c.shape)
     )
 
-def mandel(z, c):
-    return z**2 + c
-
-    
+  
 class Compute:
     def __init__(self, poly, max_iter=100, max_value=2):
         self.max_iter = max_iter
@@ -43,7 +41,7 @@ def poly_iter_parallel(poly, c, max_iter=100, max_value=2, nproc=2, nchunks=4):
 
     with Pool(nproc) as P:
         all_results = P.map(
-            Compute(poly, max_iter=100, max_value=2),
+            Compute(poly, max_iter=max_iter, max_value=max_value),
             split(c.flatten(), nportions=nchunks)
         )
     
@@ -95,15 +93,3 @@ def gradient_func(niter, absz):
     return grad
 
 
-def get_render_filename(loc):
-    loc = Path(loc)
-    loc.mkdir(exist_ok=True, parents=True)
-    first = loc / "render-0000.png"
-    if not first.exists():
-        return first
-    else:
-        pat = re.compile("[0-9]+")
-        files = sorted(loc.glob("render-*.png"), key=lambda p: int(pat.search(str(p)).group(0)), reverse=False)
-        lasti = int(pat.search(str(files[-1])).group(0))
-        # print(files)
-        return loc / "render-{:04d}.png".format(lasti + 1)
