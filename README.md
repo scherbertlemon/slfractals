@@ -12,9 +12,15 @@ That's the easiest way. Clone the repository, then from this folder, build image
 
     docker build -t slfractals:latest .
 
-To run the bokeh app, run:
+To run the bokeh app on localhost on port 5006, run:
 
     docker run --rm -it -p 5006:5006 slfractals:latest
+
+If you want another port, host, modify the above command:
+
+    docker run --rm -it -p 5007:5007 -e ALLOW_HOST=localhost -e ALLOW_PORT=5007 slfractals:latest
+
+Be carefull running this for other hosts than localhost, however! Rendering the fractals can occupy several CPU cores per user session!
 
 
 ## Installation and setup
