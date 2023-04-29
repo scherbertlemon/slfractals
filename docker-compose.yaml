@@ -5,22 +5,23 @@ services:
       dockerfile: Dockerfile
       context: .
       target: application
-    command: bokeh serve --allow-websocket-origin localhost:5006 /slfractals/src/fractal_app.py
     ports:
-      - 5006:5006
+      - ${BOKEH_PORT:-5006}:${BOKEH_PORT:-5006}
+    environment:
+      - ALLOW_PORT=${BOKEH_PORT:-5006}
     container_name: slfractals-app
 
   notebook:
-    image: slfractals:app
+    image: slfractals:environment
     build:
       dockerfile: Dockerfile
       context: .
       target: environment
-    command: jupyter server --no-browser --allow-root --ip 0.0.0.0 --ServerApp.token mandelbr0t --port 8896
+    command: jupyter server --no-browser --allow-root --ip 0.0.0.0 --ServerApp.token ${JUPYTER_PW:-mandelbr0t} --port ${JUPYTER_PORT:-8888}
     ports:
-      - 8896:8896
+      - ${JUPYTER_PORT:-8888}:${JUPYTER_PORT:-8888}
     volumes:
-      - ${LOCAL_WS}:/slfractals
+      - ${LOCAL_WS:-.}:/slfractals
     environment:
       - PYTHONPATH=/slfractals/src
     container_name: slfractals-notebook

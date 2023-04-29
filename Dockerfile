@@ -1,4 +1,4 @@
-FROM python:3.9.9-slim-bullseye AS environment
+FROM python:3.9-slim-bullseye AS environment
 
 RUN apt-get update \
     && apt-get install --yes --no-install-recommends \
@@ -22,11 +22,10 @@ RUN jupyter contrib nbextension install --user \
 FROM environment AS application
 
 COPY src /slfractals/src
-COPY run /slfractals/run
 RUN poetry install --no-interaction --no-ansi \
     && poetry cache clear --all --no-interaction .
 
 ENV ALLOW_PORT=5006
 ENV ALLOW_HOST=localhost
 
-CMD ["bash", "-c", "bokeh serve --port ${ALLOW_PORT} --allow-websocket-origin ${ALLOW_HOST}:${ALLOW_PORT} run/fractal_app.py"]
+CMD ["bash", "-c", "bokeh serve --port ${ALLOW_PORT} --allow-websocket-origin ${ALLOW_HOST}:${ALLOW_PORT} src/fractal_app.py"]

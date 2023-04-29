@@ -1,33 +1,20 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
-// https://github.com/microsoft/vscode-dev-containers/tree/v0.209.6/containers/docker-existing-dockerfile
 {
 	"name": "slfractals",
-
-	"image": "slfractals:latest",
 	"build": {
-		// Sets the run context to one level up instead of the .devcontainer folder.
 		"context": "..",
-		// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
-		"dockerFile": "../Dockerfile",
+		"dockerfile": "../Dockerfile",
 		"target": "environment"
 	},
-
+	"customizations": {
+		"vscode":{
+			"extensions": ["ms-python.python", "ms-toolsai.jupyter"]
+		}
+	},
 	
-	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": ["ms-python.python", "ms-toolsai.jupyter"],
-
 	"workspaceFolder": "/slfractals",
 	"workspaceMount": "source=${localWorkspaceFolder},target=/slfractals,type=bind",
-
-	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
 	"runArgs": [ "--name=slfractals" ],
 	"containerEnv": {
 		"PYTHONPATH": "/slfractals/src"
 	}
-
-	// Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.
-	// "mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
-
-	// Uncomment to connect as a non-root user if you've added one. See https://aka.ms/vscode-remote/containers/non-root.
-	// "remoteUser": "vscode"
 }
