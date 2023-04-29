@@ -1,6 +1,0 @@
-numpy
-jupyter
-matplotlib
-bokeh
-rise
-jupyter_contrib_nbextensions

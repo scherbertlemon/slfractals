@@ -1,17 +1,30 @@
-FROM docker.io/library/python:3.9.9-slim-buster
+FROM python:3.9.9-slim-bullseye AS environment
+
+RUN apt-get update \
+    && apt-get install --yes --no-install-recommends \
+    gcc \
+    python3-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN pip install poetry \
     && pip cache purge --no-input \
     && poetry config virtualenvs.create false
 
-WORKDIR /app
+WORKDIR /slfractals
+COPY poetry.lock pyproject.toml /slfractals/
 
-COPY . /app/
-
-RUN poetry install --no-interaction
+RUN poetry install --no-interaction --no-ansi --no-root \
+    && poetry cache clear --all --no-interaction .
 RUN jupyter contrib nbextension install --user \
     && jupyter nbextension enable splitcell/splitcell \
     && jupyter nbextension enable hide_input/main
+
+FROM environment AS application
+
+COPY src /slfractals/src
+COPY run /slfractals/run
+RUN poetry install --no-interaction --no-ansi \
+    && poetry cache clear --all --no-interaction .
 
 ENV ALLOW_PORT=5006
 ENV ALLOW_HOST=localhost

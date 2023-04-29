@@ -9,7 +9,7 @@ import numpy as np
 from inspect import getmembers, isfunction
 from slfractals.colors import blueorangeblue
 
-NPROC = 2
+NPROC = 4
 
 xlim = (-1.8, 1.)
 ylim = (-0.9, 0.9)
