@@ -96,8 +96,8 @@ class Fractal:
             palette = blueorangeblue(100)
         img = self.img
         p = figure(
-            plot_width=img.shape[1],
-            plot_height=img.shape[0],
+            width=img.shape[1],
+            height=img.shape[0],
             x_range=self.xlim,
             y_range=self.ylim
         )
