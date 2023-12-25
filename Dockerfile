@@ -1,17 +1,11 @@
-FROM python:3.12-slim-bullseye AS base
+FROM python:3.11-slim-bullseye AS environment
 
 RUN apt-get update \
     && apt-get install --yes --no-install-recommends \
     g++ \
     && rm -rf /var/lib/apt/lists/*
 
-RUN python -m venv --upgrade-deps /pypoetry \
-    && /pypoetry/bin/pip install poetry==1.7.1 \
-    && /pypoetry/bin/pip cache purge --no-input
-
-COPY --chmod=755 scripts/poetry /usr/local/bin
-
-FROM base as environment
+RUN pip install poetry==1.7.1 && pip cache purge
 
 WORKDIR /slfractals
 COPY poetry.lock pyproject.toml poetry.toml /slfractals/

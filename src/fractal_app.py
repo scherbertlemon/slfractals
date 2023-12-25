@@ -29,8 +29,8 @@ grad = slf.parallel_compute(
 
 p = figure(
     title="fractal",
-    plot_width=grad.shape[1]*factor,
-    plot_height=grad.shape[0]*factor,
+    width=grad.shape[1]*factor,
+    height=grad.shape[0]*factor,
     x_range=xlim,
     y_range=ylim
 )
@@ -111,8 +111,8 @@ def update():
         x=[nxlim[0]], y=[nylim[0]],
         dw=[nxlim[1]-nxlim[0]], dh=[nylim[1]-nylim[0]]
     )
-    p.plot_width=grad.shape[1]*factor
-    p.plot_height=grad.shape[0]*factor
+    p.width=grad.shape[1]*factor
+    p.height=grad.shape[0]*factor
     refresh["time"] = time()
     
     return grad, C
