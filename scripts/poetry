@@ -1,0 +1,7 @@
+#!/pypoetry/bin/python
+
+from poetry.console.application import main
+import sys
+
+if __name__ == "__main__":
+    main()
